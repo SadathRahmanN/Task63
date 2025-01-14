@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Destinations</title>
+</head>
+<body>
+    <h1>Tourist Destinations</h1>
+    <ul>
+        {% for destination in destinations %}
+            <li>
+                <h2>{{ destination.name }}</h2>
+                <p>{{ destination.weather }}</p>
+                <p>{{ destination.location }}</p>
+                <p><a href="{{ destination.google_map_link }}">Google Map</a></p>
+                <p>{{ destination.description }}</p>
+                <img src="{{ destination.image.url }}" alt="{{ destination.name }}" width="200">
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
