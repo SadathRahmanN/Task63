@@ -1,22 +1,29 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Destinations</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Destinations - Tourist Destinations</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
 </head>
 <body>
-    <h1>Tourist Destinations</h1>
-    <ul>
-        {% for destination in destinations %}
-            <li>
-                <h2>{{ destination.name }}</h2>
-                <p>{{ destination.weather }}</p>
-                <p>{{ destination.location }}</p>
-                <p><a href="{{ destination.google_map_link }}">Google Map</a></p>
-                <p>{{ destination.description }}</p>
-                <img src="{{ destination.image.url }}" alt="{{ destination.name }}" width="200">
-            </li>
-        {% endfor %}
-    </ul>
+    <div class="container mt-5">
+        <h2 class="text-center">Tourist Destinations</h2>
+        <div class="row">
+            {% for destination in destinations %}
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="{{ destination.image }}" class="card-img-top" alt="{{ destination.place_name }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ destination.place_name }}</h5>
+                        <p class="card-text">{{ destination.description }}</p>
+                        <a href="{{ destination.google_map_link }}" class="btn btn-primary" target="_blank">View on Google Maps</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
 </body>
 </html>
