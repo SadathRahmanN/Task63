@@ -1,6 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -136,20 +137,23 @@
             box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
         }
 
-        /* Custom CSS for Right Side Sliding */
+        /* Custom CSS for Centered Popup */
         .offcanvas-right {
             position: fixed;
-            top: 0;
-            right: -300px;
-            width: 300px;
-            height: 100%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%); /* Center the popup */
+            width: 400px; /* Set width for the popup */
             background-color: #343a40;
-            transition: right 0.5s ease-in-out;
-            padding: 1rem;
+            padding: 2rem;
+            border-radius: 10px; /* Rounded corners */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            z-index: 1050;
+            display: none; /* Hide by default */
         }
 
         .offcanvas-right.active {
-            right: 0;
+            display: block; /* Show when active */
         }
 
         .offcanvas-content {
@@ -161,16 +165,36 @@
             background-color: #555;
             border: none;
             color: white;
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+        }
+
+        .offcanvas-content button {
+            background-color: #2575fc;
+            border: none;
+            font-weight: 600;
+            padding: 10px 20px;
+            width: 100%;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .offcanvas-content button:hover {
+            background-color: #6a11cb;
         }
 
     </style>
 </head>
+
 <body>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">Tourist Destinations</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
@@ -296,4 +320,5 @@
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

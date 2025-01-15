@@ -1,71 +1,136 @@
 {% load static %}
-{% load form_filters %}  <!-- Correct order of loading -->
+{% load form_filters %}
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">  
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Tourist Destinations</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
     <style>
-        body {
-            background-color: #f4f7fa;
-            font-family: 'Arial', sans-serif;
+        /* Modal styling */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
         }
-        .login-container {
-            max-width: 400px;
-            margin: 0 auto;
+
+        .modal-content {
+            background-color: #fff;
             padding: 30px;
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            max-width: 500px;
+            width: 100%;
         }
-        .login-container h2 {
-            font-size: 28px;
-            font-weight: bold;
+
+        .modal-header {
+            font-size: 1.8rem;
             color: #333;
+            text-align: center;
             margin-bottom: 20px;
         }
+
         .form-group label {
             font-weight: 600;
             color: #555;
         }
+
+        .form-control {
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            padding: 12px;
+            margin-bottom: 20px;
+        }
+
         .btn-primary {
+            background-color: #2575fc;
+            border: none;
+            padding: 12px 20px;
             width: 100%;
-            padding: 10px;
-            font-size: 16px;
-            font-weight: bold;
+            font-weight: 600;
+            border-radius: 8px;
         }
-        .signup-link {
-            text-align: center;
-            margin-top: 20px;
+
+        .btn-primary:hover {
+            background-color: #6a11cb;
         }
+
+        .close-btn {
+            font-size: 2rem;
+            color: #333;
+            cursor: pointer;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+
         .signup-link a {
-            color: #007bff;
+            color: #2575fc;
             text-decoration: none;
         }
+
         .signup-link a:hover {
             text-decoration: underline;
         }
     </style>
 </head>
 <body>
-    <div class="login-container">
-        <h2 class="text-center">Login to Tourist Destinations</h2>
-        <form method="post">
-            {% csrf_token %}
-            <div class="form-group">
-                <label for="username">Username</label>
-                {{ form.username|add_class:"form-control" }}
-            </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                {{ form.password|add_class:"form-control" }}
-            </div>
-            <button type="submit" class="btn btn-primary">Login</button>
-        </form>
-        <p class="signup-link">Don't have an account? <a href="{% url 'sign_up' %}">Sign Up</a></p>
+
+    <!-- Modal for Login -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <span class="close-btn" id="closeLoginModal">&times;</span>
+            <div class="modal-header">Login</div>
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" name="username" id="id_username" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" name="password" id="id_password" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Login</button>
+            </form>
+            <p class="signup-link">Don't have an account? <a href="#" id="openSignupModal">Sign Up</a></p>
+        </div>
     </div>
+
+    <!-- Scripts -->
+    <script>
+        // Get elements
+        const loginModal = document.getElementById('loginModal');
+        const closeLoginModal = document.getElementById('closeLoginModal');
+        const openSignupModal = document.getElementById('openSignupModal');
+
+        // Show Login modal
+        window.onload = () => loginModal.style.display = 'flex';
+
+        // Close Login modal
+        closeLoginModal.onclick = () => loginModal.style.display = 'none';
+
+        // Switch to SignUp Modal
+        openSignupModal.onclick = () => {
+            loginModal.style.display = 'none';
+            window.location.href = "{% url 'sign_up' %}";  // Redirect to sign-up page
+        };
+
+        // Close modal when clicked outside the modal content
+        window.onclick = (event) => {
+            if (event.target === loginModal) {
+                loginModal.style.display = 'none';
+            }
+        };
+    </script>
+
 </body>
 </html>
