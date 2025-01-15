@@ -7,35 +7,70 @@
     <title>Tourist Destinations</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
     <style>
+        /* Custom Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&family=Roboto:wght@400&display=swap');
+
         body {
             margin: 0;
             padding: 0;
-            font-family: Arial, sans-serif;
+            font-family: 'Roboto', sans-serif;
             scroll-behavior: smooth;
         }
 
         section {
-            height: 100vh;
             display: flex;
-            align-items: center;
+            flex-direction: column;
             justify-content: center;
+            align-items: center;
             text-align: center;
+            padding: 5rem 0;
+            min-height: 100vh;
         }
 
+        /* Navbar Styling */
+        .navbar {
+            background: linear-gradient(90deg, #f12711, #f5af19); /* Orange Gradient */
+            padding: 1rem 2rem;
+        }
+
+        .navbar-brand {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: white;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .navbar-nav {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .navbar-nav .nav-link {
+            font-family: 'Roboto', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: white;
+            padding: 1rem 2rem;
+            transition: color 0.3s ease;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: #2575fc;
+        }
+
+        .navbar-nav .nav-item {
+            margin: 0 10px;
+        }
+
+        /* Home Section */
         #home {
             background: url("{% static 'destinations/images/background.jpg' %}") no-repeat center center/cover;
+            background-blend-mode: overlay;
+            background-color: rgba(255, 255, 255, 0.4); /* Light Shade */
             color: white;
-            position: relative;
-        }
-
-        #home::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.6);
         }
 
         #home .container {
@@ -43,23 +78,21 @@
             z-index: 1;
         }
 
+        /* Destinations Section */
         #destinations {
-            background-color: #f8f9fa;
+            background: url("{% static 'destinations/images/background.jpg' %}") no-repeat center center/cover;
+            background-blend-mode: overlay;
+            background-color: rgba(243, 156, 18, 0.4); /* Light orange shade */
+            color: #333;
             padding: 50px 0;
         }
 
-        #destinations .card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border: none;
-        }
-
-        #destinations .card:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-        }
-
+        /* Add Destination Section */
         #add-destination {
-            background-color: #e9ecef;
+            background: url("{% static 'destinations/images/background.jpg' %}") no-repeat center center/cover;
+            background-blend-mode: overlay;
+            background-color: rgba(46, 204, 113, 0.4); /* Light green shade */
+            color: white;
             padding: 50px 0;
         }
 
@@ -73,22 +106,10 @@
             margin: 0;
         }
 
-        /* Navbar Styles */
-        .navbar {
-            background-color: #333;
-        }
-
-        .navbar-brand {
-            font-weight: bold;
-        }
-
-        .navbar-nav .nav-link {
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
-
-        .navbar-nav .nav-link:hover {
-            color: #2575fc;
+        /* Section Titles */
+        h2 {
+            font-size: 2rem;
+            font-weight: 600;
         }
 
         /* Button Styles */
@@ -103,11 +124,45 @@
             background-color: #6a11cb;
         }
 
-        /* Section Titles */
-        h2 {
-            font-size: 2rem;
-            font-weight: 600;
+        /* Card Styling */
+        .card {
+            border: none;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
+
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Custom CSS for Right Side Sliding */
+        .offcanvas-right {
+            position: fixed;
+            top: 0;
+            right: -300px;
+            width: 300px;
+            height: 100%;
+            background-color: #343a40;
+            transition: right 0.5s ease-in-out;
+            padding: 1rem;
+        }
+
+        .offcanvas-right.active {
+            right: 0;
+        }
+
+        .offcanvas-content {
+            color: white;
+        }
+
+        .offcanvas-content input,
+        .offcanvas-content textarea {
+            background-color: #555;
+            border: none;
+            color: white;
+        }
+
     </style>
 </head>
 <body>
@@ -132,15 +187,55 @@
                 </ul>
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" href="/login">Login</a>
+                        <a class="nav-link" href="#" onclick="toggleOffcanvas('login-offcanvas')">Login</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/signup">Sign Up</a>
+                        <a class="nav-link" href="#" onclick="toggleOffcanvas('signup-offcanvas')">Sign Up</a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
+
+    <!-- Right Side Offcanvas for Login -->
+    <div id="login-offcanvas" class="offcanvas-right">
+        <div class="offcanvas-content">
+            <h3>Login</h3>
+            <form action="/login" method="post">
+                <div class="mb-3">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" class="form-control" id="username" name="username" required>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="password" name="password" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Right Side Offcanvas for Sign Up -->
+    <div id="signup-offcanvas" class="offcanvas-right">
+        <div class="offcanvas-content">
+            <h3>Sign Up</h3>
+            <form action="/signup" method="post">
+                <div class="mb-3">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" class="form-control" id="username" name="username" required>
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="password" name="password" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Sign Up</button>
+            </form>
+        </div>
+    </div>
 
     <!-- Home Section -->
     <section id="home">
@@ -188,45 +283,17 @@
         </div>
     </section>
 
-    <!-- Add Destination Section -->
-    <section id="add-destination" class="text-center">
-        <div class="container">
-            <h2 class="mb-4">Add a New Destination</h2>
-            <form action="/add-destination" method="post">
-                <div class="mb-3">
-                    <label for="place-name" class="form-label">Place Name</label>
-                    <input type="text" class="form-control" id="place-name" name="place_name" required>
-                </div>
-                <div class="mb-3">
-                    <label for="weather" class="form-label">Weather</label>
-                    <input type="text" class="form-control" id="weather" name="weather" required>
-                </div>
-                <div class="mb-3">
-                    <label for="location" class="form-label">Location</label>
-                    <input type="text" class="form-control" id="location" name="location" required>
-                </div>
-                <div class="mb-3">
-                    <label for="google-map-link" class="form-label">Google Map Link</label>
-                    <input type="url" class="form-control" id="google-map-link" name="google_map_link" required>
-                </div>
-                <div class="mb-3">
-                    <label for="image" class="form-label">Image URL</label>
-                    <input type="url" class="form-control" id="image" name="image" required>
-                </div>
-                <div class="mb-3">
-                    <label for="description" class="form-label">Description</label>
-                    <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
-        </div>
-    </section>
-
     <!-- Footer -->
     <footer class="text-center">
         <p>&copy; 2024 Tourist Destinations. All Rights Reserved.</p>
     </footer>
 
+    <script>
+        function toggleOffcanvas(offcanvasId) {
+            const offcanvas = document.getElementById(offcanvasId);
+            offcanvas.classList.toggle('active');
+        }
+    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
