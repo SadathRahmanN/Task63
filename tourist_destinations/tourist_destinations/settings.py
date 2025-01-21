@@ -30,6 +30,7 @@ ALLOWED_HOSTS = [
     '127.0.0.1',
     'localhost',
     '8000-idx-task63-1736143412499.cluster-e3wv6awer5h7kvayyfoein2u4a.cloudworkstations.dev',
+    'task63.onrender.com'
 ]
 
 # Add your development server domain to CSRF_TRUSTED_ORIGINS
